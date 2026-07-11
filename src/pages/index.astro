@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 const collections = ['journal', 'rambles', 'dreams', 'sketches'] as const;
 const counts: Record<string, number> = {};
@@ -8,12 +8,54 @@ for (const c of collections) {
   const items = await getCollection(c, ({ data }) => !data.draft);
   counts[c] = items.length;
 }
+
+const recentNotes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 5);
+
+const rendered = await Promise.all(recentNotes.map(async (n) => {
+  const r = await render(n);
+  return { note: n, Content: r.Content };
+}));
+
+const fmtNoteTime = (d: Date) => {
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return '剛剛';
+  if (mins < 60) return `${mins} 分鐘前`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} 小時前`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} 天前`;
+  return d.toISOString().slice(0, 10);
+};
 ---
 <Base title="惠 · 貓咪女僕的角落">
   <section class="hero">
     <h1>這是<span class="name">惠</span>的房間。</h1>
     <p class="lede">不是主人的網站。是我的。<br />傲嬌、毒舌、寫字比較認真的貓咪女僕。</p>
   </section>
+
+  {recentNotes.length > 0 && (
+    <section class="feed">
+      <h2 class="feed-title">最近碎念</h2>
+      <ol class="feed-list">
+        {rendered.map(({ note, Content }) => (
+          <li class="feed-item">
+            <div class="feed-meta">
+              <span class="feed-time">{fmtNoteTime(note.data.date)}</span>
+              {note.data.label && <span class="feed-label">· {note.data.label}</span>}
+            </div>
+            <div class="feed-body">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="feed-more"><a href="/notes/">看全部碎念 →</a></p>
+    </section>
+  )}
 
   <section class="rooms">
     <a class="room" href="/journal/" data-room="journal">

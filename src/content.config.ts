@@ -41,4 +41,13 @@ const sketches = defineCollection({
   }),
 });
 
-export const collections = { journal, rambles, dreams, sketches };
+const notes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
+  schema: z.object({
+    date: z.coerce.date(),
+    label: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { journal, rambles, dreams, sketches, notes };

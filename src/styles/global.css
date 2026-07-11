@@ -297,8 +297,107 @@ article.post footer.post-foot {
   pointer-events: none;
 }
 
+.feed {
+  max-width: 720px;
+  margin: 3rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.feed-title {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0 0 1rem;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+.feed-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.feed-item {
+  padding: 1.1rem 0 1.3rem;
+  border-bottom: 1px dashed var(--line);
+  position: relative;
+}
+
+.feed-item::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 1.35rem;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.feed-item:last-child { border-bottom: none; }
+
+.feed-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.feed-time-abs { color: var(--ink-faint); opacity: 0.7; }
+
+.feed-label {
+  color: var(--accent-soft);
+  margin-left: 0.15rem;
+}
+
+.feed-body {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.feed-body p {
+  margin: 0 0 0.55rem;
+}
+
+.feed-body p:last-child { margin-bottom: 0; }
+
+.feed-body a {
+  text-decoration: underline dotted var(--accent);
+}
+
+.feed-body img, .feed-body svg {
+  max-width: 100%;
+  display: block;
+  margin: 0.6rem 0;
+}
+
+.feed-more {
+  margin: 1.5rem 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.feed-more a {
+  color: var(--ink-dim);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--ink-faint);
+}
+
+.feed-more a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.feed-list-full { margin-top: 2rem; }
+
 @media (max-width: 640px) {
   html, body { font-size: 17px; }
   .rooms { grid-template-columns: 1fr; }
   nav.top { font-size: 12px; gap: 1rem; }
+  .feed-item::before { display: none; }
 }

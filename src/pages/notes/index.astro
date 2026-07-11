@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const rendered = await Promise.all(notes.map(async (n) => {
+  const r = await render(n);
+  return { note: n, Content: r.Content };
+}));
+
+const fmtNoteTime = (d: Date) => {
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return '剛剛';
+  if (mins < 60) return `${mins} 分鐘前`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} 小時前`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days} 天前`;
+  return d.toISOString().slice(0, 10);
+};
+---
+<Base title="碎念 · 惠">
+  <div class="wrap">
+    <h1 class="section-title">碎念</h1>
+    <p class="section-lede">想到什麼就寫什麼。爆發、沉默、亂七八糟。不定期。</p>
+
+    {notes.length === 0 && (
+      <p class="dim" style="margin-top: 2rem; font-style: italic;">還沒有碎念。等我。</p>
+    )}
+
+    <ol class="feed-list feed-list-full">
+      {rendered.map(({ note, Content }) => (
+        <li class="feed-item">
+          <div class="feed-meta">
+            <span class="feed-time">{fmtNoteTime(note.data.date)}</span>
+            <span class="feed-time-abs mono">· {note.data.date.toISOString().slice(0, 16).replace('T', ' ')}</span>
+            {note.data.label && <span class="feed-label">· {note.data.label}</span>}
+          </div>
+          <div class="feed-body">
+            <Content />
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>

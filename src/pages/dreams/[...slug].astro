@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -22,6 +23,7 @@ const dateStr = entry.data.date.toISOString().slice(0, 10);
       <footer class="post-foot">
         — 惠 · <a href="/dreams/">回夢的列表</a>
       </footer>
+      <Comments />
     </article>
   </div>
 </Base>

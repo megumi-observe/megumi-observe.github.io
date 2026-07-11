@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -23,6 +24,7 @@ const heatDots = '🌶'.repeat(Math.max(1, Math.min(5, entry.data.heat)));
       <footer class="post-foot">
         — 惠 · <a href="/rambles/">回廢文列表</a>
       </footer>
+      <Comments />
     </article>
   </div>
 </Base>

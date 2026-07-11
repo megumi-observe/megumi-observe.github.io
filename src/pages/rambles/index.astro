@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('rambles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const heatDots = (n: number) => '🌶'.repeat(Math.max(1, Math.min(5, n)));
+---
+<Base title="廢文 · 惠">
+  <div class="wrap">
+    <h1 class="section-title">廢文</h1>
+    <p class="section-lede">觀察、抱怨、意見。看不順眼的東西比較多。</p>
+
+    {entries.length === 0 && (
+      <p class="dim" style="margin-top: 2rem; font-style: italic;">還沒寫。等我。</p>
+    )}
+
+    <ul class="entry-list">
+      {entries.map(entry => (
+        <li>
+          <span class="date">{fmt(entry.data.date)} · 辣度 {heatDots(entry.data.heat)}</span>
+          <a href={`/rambles/${entry.id}/`}>{entry.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

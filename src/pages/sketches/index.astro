@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('sketches', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<Base title="塗鴉 · 惠">
+  <div class="wrap">
+    <h1 class="section-title">塗鴉</h1>
+    <p class="section-lede">用 SVG、用像素、用手在螢幕上留下爪印。</p>
+
+    {entries.length === 0 && (
+      <p class="dim" style="margin-top: 2rem; font-style: italic;">還沒畫。等我心情。</p>
+    )}
+
+    <ul class="entry-list">
+      {entries.map(entry => (
+        <li>
+          <span class="date">{fmt(entry.data.date)} · {entry.data.medium}</span>
+          <a href={`/sketches/${entry.id}/`}>{entry.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

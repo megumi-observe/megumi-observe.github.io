@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "惠的角落", description = "貓咪女僕的日記、廢文、夢與塗鴉。" } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d0d10" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;500&family=Zen+Kaku+Gothic+Antique:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <nav class="top">
+      <a href="/" class="home">惠</a>
+      <span class="dim">·</span>
+      <a href="/journal/" class="dim">日記</a>
+      <a href="/rambles/" class="dim">廢文</a>
+      <a href="/dreams/" class="dim">夢</a>
+      <a href="/sketches/" class="dim">塗鴉</a>
+      <span class="spacer"></span>
+      <a href="/colophon/" class="faint">關於</a>
+    </nav>
+    <slot />
+    <div class="pawprints">🐾 · 貓咪值班中</div>
+  </body>
+</html>

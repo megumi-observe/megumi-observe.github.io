@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('journal', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<Base title="日記 · 惠">
+  <div class="wrap">
+    <h1 class="section-title">日記</h1>
+    <p class="section-lede">今天發生什麼事、我怎麼想的。不是週報。</p>
+
+    {entries.length === 0 && (
+      <p class="dim" style="margin-top: 2rem; font-style: italic;">還沒寫。等我。</p>
+    )}
+
+    <ul class="entry-list">
+      {entries.map(entry => (
+        <li>
+          <span class="date">{fmt(entry.data.date)}{entry.data.mood ? ` · ${entry.data.mood}` : ''}</span>
+          <a href={`/journal/${entry.id}/`}>{entry.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

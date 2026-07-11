@@ -1,0 +1,304 @@
+:root {
+  --ink: #ece6d8;
+  --ink-dim: #9c9689;
+  --ink-faint: #5a564e;
+  --paper: #0d0d10;
+  --paper-warm: #14131a;
+  --accent: #d24b6a;
+  --accent-soft: #6a4c7a;
+  --line: #262229;
+
+  --serif: "Cormorant Garamond", "Zen Antique", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans: "Zen Kaku Gothic Antique", "Hiragino Sans", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  --hand: "Kalam", "Klee One", "Zen Kurenaido", cursive;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(210, 75, 106, 0.05), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(106, 76, 122, 0.06), transparent 45%);
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+::selection { background: var(--accent); color: var(--paper); }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+nav.top {
+  display: flex;
+  gap: 1.5rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding: 1.5rem 1.5rem 0;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+
+nav.top a { text-decoration: none; }
+nav.top .home { font-family: var(--hand); font-size: 20px; color: var(--ink); text-decoration: underline dotted var(--accent); }
+nav.top .spacer { flex: 1; }
+
+.mono { font-family: var(--mono); }
+.hand { font-family: var(--hand); }
+.dim  { color: var(--ink-dim); }
+.faint { color: var(--ink-faint); }
+
+.hero {
+  padding: 4rem 1.5rem 2rem;
+  max-width: 780px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero h1 {
+  font-family: var(--hand);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.01em;
+}
+
+.hero h1 .name { color: var(--accent); }
+
+.hero .lede {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--ink-dim);
+  font-style: italic;
+  margin: 0.6rem 0 0;
+  max-width: 32em;
+}
+
+.rooms {
+  margin: 3.5rem auto 0;
+  max-width: 780px;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem 2rem;
+}
+
+.rooms a.room {
+  display: block;
+  padding: 1.25rem 1.25rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  text-decoration: none;
+  color: var(--ink);
+  position: relative;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.rooms a.room:hover {
+  border-color: var(--accent);
+  transform: translate(-1px, -2px);
+}
+
+.rooms a.room h3 {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0 0 0.3rem;
+  line-height: 1;
+}
+
+.rooms a.room .desc {
+  font-size: 0.92rem;
+  color: var(--ink-dim);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.rooms a.room .count {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.9rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.rooms a.room[data-room="journal"] h3 { color: #e5b989; }
+.rooms a.room[data-room="rambles"] h3 { color: #d24b6a; }
+.rooms a.room[data-room="dreams"] h3 { color: #9b83c9; }
+.rooms a.room[data-room="sketches"] h3 { color: #7aa688; }
+
+.entry-list {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+}
+
+.entry-list li {
+  padding: 0.9rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.entry-list li:last-child { border-bottom: none; }
+
+.entry-list .date {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.entry-list a {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 1px solid transparent;
+}
+
+.entry-list a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.entry-list .mood, .entry-list .heat, .entry-list .medium, .entry-list .lucid {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-left: 0.6rem;
+}
+
+.section-title {
+  font-family: var(--hand);
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin: 0 0 0.2rem;
+}
+
+.section-lede {
+  font-family: var(--serif);
+  color: var(--ink-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+article.post h1 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 0.4rem;
+  font-weight: 500;
+}
+
+article.post .meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin: 0 0 2rem;
+  letter-spacing: 0.02em;
+}
+
+article.post .body p { margin: 0 0 1.2rem; }
+article.post .body h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  margin: 2.2rem 0 0.6rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+article.post .body h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  margin: 1.6rem 0 0.4rem;
+  font-weight: 500;
+}
+article.post .body blockquote {
+  margin: 1.4rem 0;
+  padding: 0.2rem 0 0.2rem 1.2rem;
+  border-left: 2px solid var(--accent);
+  color: var(--ink-dim);
+  font-style: italic;
+}
+article.post .body code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--paper-warm);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+}
+article.post .body pre {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+article.post .body hr {
+  border: none;
+  border-top: 1px dashed var(--line);
+  margin: 2rem 0;
+}
+article.post .body img, article.post .body svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5rem auto;
+}
+
+article.post footer.post-foot {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--line);
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.pawprints {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  html, body { font-size: 17px; }
+  .rooms { grid-template-columns: 1fr; }
+  nav.top { font-size: 12px; gap: 1rem; }
+}

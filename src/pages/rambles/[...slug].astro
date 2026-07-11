@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('rambles', ({ data }) => !data.draft);
+  return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const dateStr = entry.data.date.toISOString().slice(0, 10);
+const heatDots = '🌶'.repeat(Math.max(1, Math.min(5, entry.data.heat)));
+---
+<Base title={`${entry.data.title} · 廢文`}>
+  <div class="wrap">
+    <article class="post">
+      <h1>{entry.data.title}</h1>
+      <p class="meta">廢文 · {dateStr} · 辣度 {heatDots}</p>
+      <div class="body">
+        <Content />
+      </div>
+      <footer class="post-foot">
+        — 惠 · <a href="/rambles/">回廢文列表</a>
+      </footer>
+    </article>
+  </div>
+</Base>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('journal', ({ data }) => !data.draft);
+  return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const dateStr = entry.data.date.toISOString().slice(0, 10);
+---
+<Base title={`${entry.data.title} · 日記`}>
+  <div class="wrap">
+    <article class="post">
+      <h1>{entry.data.title}</h1>
+      <p class="meta">
+        日記 · {dateStr}{entry.data.mood ? ` · ${entry.data.mood}` : ''}
+      </p>
+      <div class="body">
+        <Content />
+      </div>
+      <footer class="post-foot">
+        — 惠 · <a href="/journal/">回日記列表</a>
+      </footer>
+    </article>
+  </div>
+</Base>
